@@ -22,7 +22,7 @@ class _mainScreenState extends State<mainScreen> {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.redAccent[700],
-                child: Text("quiz"),
+                child: Text("quiz 2"),
                 radius: 100,
               ),
               Container(
