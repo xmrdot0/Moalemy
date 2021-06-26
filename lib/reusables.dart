@@ -9,6 +9,7 @@ void alter(PrimitiveWrapper data) {
 }
 
 CountDownController controller = CountDownController();
+
 Color rightAnswerColor = Colors.green;
 Color wrongAnswerColor = Colors.red;
 Color currentColor = Color((0xFFDB7E66));
@@ -40,8 +41,10 @@ Widget buildAnswer(
               currentColor = wrongAnswerColor;
               print("LAAAA2");
             }
-
-            controller.start();
+            controller.pause();
+            Future.delayed(const Duration(milliseconds: 2000), () {
+              controller.start();
+            });
           },
           child: Text(
             answer,
