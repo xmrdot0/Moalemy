@@ -28,7 +28,7 @@ class _welcomeState extends State<welcome> {
                       children: [
                     TextButton(
                         child: Text(
-                          "ابداء",
+                          "ابدا الاختبار",
                           style: TextStyle(
                             fontFamily: 'Arabic',
                             fontSize: 50,

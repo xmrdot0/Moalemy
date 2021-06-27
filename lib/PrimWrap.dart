@@ -1,4 +1,4 @@
 class PrimitiveWrapper {
-  var value;
-  PrimitiveWrapper(this.value);
+  int score;
+  PrimitiveWrapper(this.score);
 }

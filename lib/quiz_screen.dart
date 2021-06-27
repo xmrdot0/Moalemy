@@ -1,51 +1,21 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:moalemy/question_model.dart';
+import 'questions_data.dart';
+import 'package:moalemy/questions_provider.dart';
 import 'package:moalemy/reusables.dart';
+import 'package:provider/provider.dart';
 import 'PrimWrap.dart';
 
-List<QuestionModel> questions = [
-  QuestionModel(
-    question: "ما هو مؤنث عطشان؟ ",
-    answers: ['عطشي', 'عطشانة', 'عطشي', 'عطشي'],
-    correctAnswerIndex: 1,
-  ),
-  QuestionModel(
-    question: "ما هو مذكر تعبانة؟ ",
-    answers: ['تعبان', 'تعبن', 'متعب', 'تعب'],
-    correctAnswerIndex: 4,
-  ),
-  QuestionModel(
-    question: "ما هو مؤنث جعان؟ ",
-    answers: ['جوعانة', 'حعان', 'جاعت', 'عطشي'],
-    correctAnswerIndex: 2,
-  ),
-  QuestionModel(
-    question: "ما هو مذكر طفشانة؟ ",
-    answers: ['طفش', 'طفشان', 'مطفش', 'عطشي'],
-    correctAnswerIndex: 3,
-  ),
-];
+int duration = 3;
 
-class QuizScreen extends StatefulWidget {
-  @override
-  State<QuizScreen> createState() => _QuizScreenState();
-}
-
-class _QuizScreenState extends State<QuizScreen> {
-  bool correct = false;
-  int currentIndex = -1;
-  QuestionModel question;
-  int duration = 7;
-  int maxScore = questions.length;
-  int currentScore = 0;
-  PrimitiveWrapper scoreWrap = PrimitiveWrapper(0);
+class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int answerIndex = 0;
-    question = currentIndex == -1 ? questions[0] : questions[currentIndex];
-    print(scoreWrap.value);
+    var provider = Provider.of<QuestionsProvider>(context);
+    var providerListenFalse = Provider.of<QuestionsProvider>(context,listen: false);
+    var question = provider.currentIndex == -1 ? questions[0] : questions[provider.currentIndex];
+
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -71,9 +41,9 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                              text: currentIndex == -1
+                              text: provider.currentIndex == -1
                                   ? '1'
-                                  : '${currentIndex + 1}',
+                                  : '${provider.currentIndex + 1}',
                               style: TextStyle(
                                   fontFamily: 'English',
                                   fontSize: 33.0,
@@ -166,28 +136,18 @@ class _QuizScreenState extends State<QuizScreen> {
 
                           // This Callback will execute when the Countdown Starts.
                           onStart: () {
-                            // Here, do whatever you want
-                            //print('Countdown Started');
-                            if (currentIndex < questions.length - 1) {
-                              setState(() {
-                                currentIndex += 1;
-                              });
-                            }
+                           providerListenFalse.changeIndex();
+
                           },
 
                           // This Callback will execute when the Countdown Ends.
                           onComplete: () {
                             // Here, do whatever you want
-                            if (currentIndex < questions.length - 1) {
+                            if (provider.currentIndex < questions.length - 1) {
                               controller.start();
                               print('Countdown Ended');
                             } else {
-                              setState(() {
-                                Navigator.pushNamed(context, '/f', arguments: {
-                                  'score': scoreWrap.value,
-                                  'maxScore': questions.length
-                                });
-                              });
+                              Navigator.pushNamed(context, '/f');
                             }
                           },
                         ),
@@ -202,18 +162,17 @@ class _QuizScreenState extends State<QuizScreen> {
                         color: Colors.white),
                     textDirection: TextDirection.rtl,
                   ),
-                  Column(
-                    children: question.answers.map((answer) {
-                      answerIndex++;
-
-                      return buildAnswer(
-                          answer: answer,
-                          correctAnswerIndex: question.correctAnswerIndex,
-                          choosenAnswerIndex: answerIndex,
-                          controller: controller,
-                          currentIndex: currentIndex,
-                          prim: scoreWrap);
-                    }).toList(),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: question.answers.length,
+                        itemBuilder: (context,index){
+                          return AnswerWidget(
+                            context: context,
+                            controller: controller,
+                            correctAnswer: question.answers[question.correctAnswerIndex],
+                            answer: question.answers[index],
+                          );
+                        }),
                   ),
                   TextButton(
                       onPressed: () {

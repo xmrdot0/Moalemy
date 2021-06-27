@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:moalemy/questions_provider.dart';
+import 'package:provider/provider.dart';
 
-class finish extends StatefulWidget {
-  @override
-  _finishState createState() => _finishState();
-}
+class ScoreScreen extends StatelessWidget {
 
-class _finishState extends State<finish> {
   @override
   Widget build(BuildContext context) {
-    Map data = ModalRoute.of(context).settings.arguments;
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -25,8 +22,8 @@ class _finishState extends State<finish> {
               ),
               child: Center(
                 child: Text(
-                  "Enta gebt ${data['score']} men ${data['maxScore']}",
-                  style: TextStyle(fontFamily: 'English', fontSize: 40),
+                  "الدرجة \n ${Provider.of<QuestionsProvider>(context).currentScore} / 4",
+                  style: TextStyle(fontFamily: 'English', fontSize: 40,color: Colors.white),
                 ),
               ),
             ))));
