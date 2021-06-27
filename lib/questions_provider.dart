@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moalemy/PrimWrap.dart';
 import 'package:moalemy/question_model.dart';
 import 'package:moalemy/questions_data.dart';
 

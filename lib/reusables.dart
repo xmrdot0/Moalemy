@@ -1,11 +1,7 @@
-import 'dart:ffi';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:moalemy/questions_data.dart';
 import 'package:moalemy/questions_provider.dart';
 import 'package:provider/provider.dart';
-import 'PrimWrap.dart';
 
 
 

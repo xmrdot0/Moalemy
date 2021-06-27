@@ -4,7 +4,6 @@ import 'questions_data.dart';
 import 'package:moalemy/questions_provider.dart';
 import 'package:moalemy/reusables.dart';
 import 'package:provider/provider.dart';
-import 'PrimWrap.dart';
 
 int duration = 3;
 
